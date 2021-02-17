@@ -6,11 +6,11 @@
 """
 
 from django.urls import path
-from django.views import View
+from user import views
 
 
 app_name = "user"
 
 urlpatterns = [
-    path("register/",)
+    path("login/",views.RegisterView.as_view(),name="login")
 ]

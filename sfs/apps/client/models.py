@@ -44,3 +44,20 @@ class Client(base_model.BaseModel):
         :return:
         """
         return self.name
+
+class ClientAlloy(base_model.BaseModel):
+    """客户产品材质"""
+
+    pass
+
+class ClientProblem(base_model.BaseModel):
+    """"客户产品问题"""
+    pass
+
+class ClientComplaint(base_model.BaseModel):
+    """客户投诉"""
+    pass
+
+class ClientDifficult(base_model.BaseModel):
+    """客户难点异常"""
+    pass

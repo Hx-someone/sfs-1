@@ -1,5 +1,5 @@
 from django.db import models
-from utils._base_model import base_model
+from utils._base_model.base_model import BaseModel
 from client.models import Client
 
 _inspector = [
@@ -15,13 +15,13 @@ _team = [
 ]
 
 
-class Salt(base_model.BaseModel):
+class Salt(BaseModel):
     """盐"""
 
     number = models.CharField(max_length=8, verbose_name="盐编号", help_text="盐编号")
 
 
-class SaltCheck(base_model.BaseModel):
+class SaltCheck(BaseModel):
     """
     炉盐检测
     """
@@ -49,7 +49,7 @@ class SaltCheck(base_model.BaseModel):
     # n_number = models.ForeignKey()
 
 
-class SaltNew(base_model.BaseModel):
+class SaltNew(BaseModel):
     """
     新盐检测
     """
@@ -72,7 +72,7 @@ class SaltNew(base_model.BaseModel):
         return "新盐检测:" + self.number
 
 
-class SaltClient(base_model.BaseModel):
+class SaltClient(BaseModel):
     """
     客户来盐
     """
@@ -93,3 +93,17 @@ class SaltClient(base_model.BaseModel):
 
     def __str__(self):
         return "《{}》来盐".format(self.client.name)
+
+
+class SaltNA(BaseModel):
+    """基盐种类及其工艺"""
+    pass
+
+class SaltRB(BaseModel):
+    """调整盐种类及其工艺"""
+    pass
+
+class SaltToNew(BaseModel):
+    """新盐试制工艺统计"""
+    pass
+

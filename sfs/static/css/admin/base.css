@@ -1,0 +1,21 @@
+
+/*1.left nav css start*/
+/*设置left nav 左浮动和左边间隔40px*/
+/*.nav{*/
+    /*float:left;*/
+    /*margin-left: 40px;*/
+/*}*/
+#nav li ul{
+    display: none;
+}
+
+
+#nav li ul li.nav-item{
+    margin-left: 20px;
+}
+
+#nav li:hover ul.nav-treeview{
+    display: block;
+}
+
+/*1.left nav css end*/

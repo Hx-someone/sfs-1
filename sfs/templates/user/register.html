@@ -1,0 +1,23 @@
+{% extends 'user/user_base.html'  %}
+{% load staticfiles %}
+
+
+{% block title %}
+    注册页面
+{% endblock %}
+
+{% block form %}
+     <form class="form-signin">
+        <h2 class="form-signin-heading">请注册</h2>
+        <label for="inputUser" class="sr-only">用户名</label>
+        <input type="text" id="inputUser" class="form-control" placeholder="请输入用户名" required autofocus>
+        <label for="inputPassword" class="sr-only">密码</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> 记住密码
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    </form>
+{% endblock %}

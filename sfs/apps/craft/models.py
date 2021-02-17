@@ -8,3 +8,12 @@ class Craft(BaseModel):
 
     number = models.CharField(max_length=16,verbose_name="工艺编号")
     
+
+class CraftSpecial(BaseModel):
+    """特殊工艺"""
+    pass
+
+class CraftChange(BaseModel):
+    """变动工艺"""
+    pass
+
