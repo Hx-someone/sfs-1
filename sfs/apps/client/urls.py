@@ -10,5 +10,5 @@ from client import views
 app_name = "client"
 
 urlpatterns = [
-    path("index/",views.ShowIndex.as_view(),name="index")
+    path("new/",views.ShowIndex.as_view(),name="new")
 ]

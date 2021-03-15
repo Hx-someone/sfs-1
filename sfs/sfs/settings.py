@@ -91,13 +91,12 @@ WSGI_APPLICATION = 'sfs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        "OPTIONS":{
-            "read_default_file":"utils.dbs.mysql.cnf"
+        "OPTIONS": {
+            "read_default_file": "utils/dbs/mysql.cnf"
         }
 
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -146,3 +145,44 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = [
     os.path.join(BASE_DIR, "media")
 ]
+
+LOOGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'
+        },  # 这里添上访问电脑IP
+        'simple': {
+            'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, "log/sfs_log.log"),
+            'maxBytes': 300 * 1024 * 1024,
+            'backupCount': 10,
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'common_info': {
+            'handlers': ['console', 'file'],
+            'propagate': True,
+            'level': 'INFO'
+        }
+    }
+}

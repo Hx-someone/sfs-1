@@ -1,9 +1,9 @@
 from django.db import models
 from utils._base_model.base_model import BaseModel
-from client.models import Client
+# from client.models import Client
 
 """
-   检测编号规则：20210220A01PSS --->20210220 - A- 01- P- S - S
+   检测编号规则：20210220A01PSN --->20210220 - A- 01- P- S - S
    日期+炉号+检测第次数+取样上下午+生产S+备用字母1位(用于新盐检测上中下)
        1.日期使用数字拼接：例：20210220
        2.炉号:英文大写字母排序，去掉容易混淆的字母：O,I,Z
@@ -11,6 +11,9 @@ from client.models import Client
            2#:B
            3#:C
            ...
+           小#:S
+           大#:T
+           "大化盐炉为5#氮化炉，小化盐炉为6#氮化炉"
        3.检测次数:使用数字表示：例：第1次：01，第2次：02...
        4.取样上下午:
            1.上午(a.m)为:A
@@ -20,7 +23,10 @@ from client.models import Client
            2.新盐new:N
            3.外来outside:O
            4.特殊special:S
-       6.最后一位：备用位，用于新盐上中下，默认为S(S--->上,X-->下,)
+       6.最后一位：备用位，
+           1.用于新盐上下，S--->上,X-->下
+           2.用户外来客户检测编号:A:编号1#，B:编号2#...
+           3.如果都不是则是N
    """
 
 _inspector = [
@@ -107,6 +113,8 @@ class SaltNew(BaseModel):
     team = models.SmallIntegerField(default=0, choices=_team, verbose_name="化盐班组", help_text="化盐班组")
     check_time = models.DateField(verbose_name="检测日期", help_text="检测日期")
     inspector = models.SmallIntegerField(default=0, choices=_inspector, verbose_name="检测人", help_text="检测人")
+    batch = models.CharField(max_length=10, verbose_name="批号", help_text="批号")
+    stove_number = models.SmallIntegerField(default=5,verbose_name="炉号")
 
     class Meta:
         ordering = ["-number", "-id"]
@@ -155,7 +163,7 @@ class SaltNA(BaseModel):
     type = models.CharField(max_length=16, verbose_name="N-A种类")
     new_salt_thaw_craft = models.CharField(max_length=128, verbose_name="新盐化盐融化工艺")
     using_salt_thaw_craft = models.CharField(max_length=64, verbose_name="新盐实用融化工艺")
-    apply_alloy = models.CharField(verbose_name="适用合金")  # 这里关联合金表中的合金信息
+    apply_alloy = models.CharField(max_length=64,verbose_name="适用合金")  # 这里关联合金表中的合金信息
     trait = models.CharField(max_length=128, verbose_name="特点")
     remark = models.CharField(max_length=256, verbose_name="备注")
 
