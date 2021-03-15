@@ -1,0 +1,114 @@
+{% extends "admin/salt/base_salt.html" %}
+{% load staticfiles %}
+{% load mytags %}
+
+{% block sub_header %}
+    N-A基盐
+{% endblock %}
+
+{% block table_data %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>名字</th>
+                <th>类型</th>
+                <th>化盐工艺</th>
+                <th>使用工艺</th>
+                <th>实用范围</th>
+                <th>特点</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for na in salt_na %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ na.name }}</td>
+                    <td>{{ na.type }}</td>
+                    <td>{{ na.new_salt_thaw_craft }}</td>
+                    <td>{{ na.using_salt_thaw_craft }}</td>
+
+                    <td>{{ na.apply_alloy }}</td>
+                    <td>{{ na.trait }}</td>
+                    <td>{{ na.remark }}</td>
+                    <td>
+                        <a href="{% url 'salt:new_salt_edit' data.id %}" class="btn-edit">编辑</a>&nbsp;&nbsp;
+                        <a href="javascript:void (0);"  class="btn-del" data-new-id='{{ data.id  }}'>删除</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="box-footer">
+                    <span class="fa-pull-left">第{{ current_page_num }}页/总共{{ total_page_num }}页</span>
+                    <nav class="fa-pull-right" aria-label="Page navigation">
+                        <!-- 分页 -->
+                        <ul class="pagination">
+
+                            <!-- 上一页 -->
+                            {% if new_salt_info.has_previous %}
+                                <li><a class="page-link" href="?page={{ new_salt_info.previous_page_number }}
+                                &{{ other_param }}">上一页</a>
+                                </li>
+                            {% else %}
+{#                                <li class="disabled"><a href="javascript:void(0);">上一页</a></li>#}
+                                <li><a class="page-link"  href="#" >上一页</a></li>
+                            {% endif %}
+
+                            <!-- 左标记 -->
+                            {% if left_has_more_page %}
+                                <li><a class="page-link" href="?page=1&{{ other_param }}">1</a></li>
+                                <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                            {% endif %}
+
+
+                            <!-- 左边的页码 -->
+                            {% for left_page in left_page_range %}
+                                <li><a class="page-link" href="?page={{ left_page }}&{{ other_param }}"
+                                >{{ left_page }}</a></li>
+                            {% endfor %}
+
+                            <!-- 当前页面 -->
+                            {% if current_page_num %}
+                                <li class="page-item active"><a class="page-link"
+                                        href="?page={{ current_page_num }}&{{ other_param }}">{{ current_page_num }}</a>
+                                </li>
+                            {% endif %}
+
+
+                            <!-- 右边的页面 -->
+                            {% for right_page in right_page_range %}
+                                <li><a class="page-link" href="?page={{ right_page }}&{{ other_param }}"
+                                >{{ right_page }}</a></li>
+                            {% endfor %}
+
+                            <!-- 右标记 -->
+                            {% if right_has_more_page %}
+                                <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                                <li><a class="page-link" href="?page={{ total_page_num }}&{{ other_param }}"
+                                >{{ total_page_num }}</a></li>
+                            {% endif %}
+
+                            <!-- 下一页 -->
+                            {% if article_info.has_next %}
+                                <li><a class="page-link" href="?page={{ article_info.next_page_number }}
+                                &{{ other_param }}">下一页</a></li>
+                            {% else %}
+{#                                <li class="disabled"><a href="javascript:void(0);">下一页</a></li>#}
+                                <li><a class="page-link"  href="#" >下一页</a></li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+                </div>
+{% endblock %}
+
+{% block script%}
+    <script src="{% static 'js/admin/salt/new_salt_edit.js' %}"></script>
+{% endblock %}
