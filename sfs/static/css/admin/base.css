@@ -19,3 +19,18 @@
 }
 
 /*1.left nav css end*/
+#sub-header{
+    margin-bottom: 30px;
+}
+#sub-header div.left{
+    float:left;
+    font-size: 30px;
+
+
+
+}
+#sub-header div.right{
+    float:right;
+    font-size: 30px;
+
+}

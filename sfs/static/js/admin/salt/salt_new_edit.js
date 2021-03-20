@@ -1,5 +1,5 @@
 $(function () {
-    let $btn = $("#btn-edit-new-salt");
+    let $btn = $("#btn-salt-new-edit");
 
     let $CheckTime = $("input[name=check-time]");
     let $ThawDate = $("input[name=thaw-date]");
@@ -39,7 +39,8 @@ $(function () {
         if (!sStoveNumber) {
             message.showError("炉号不存在");
             return
-        } else if (!(/\d/).test(sStoveNumber)) {
+        }
+        if (!(/\d/).test(sStoveNumber)) {
             message.showError("炉号格式不正确");
             return
         }
@@ -50,7 +51,8 @@ $(function () {
         if (!sNumber) {
             message.showError("编号不存在");
             return
-        } else if (!(/\d{8}\w\d{2}\w{3}/).test(sNumber)) {
+        }
+        if (!(/\d{8}\w\d{2}\w{3}/).test(sNumber)) {
             message.showError("编号格式不正确");
             return
         }
@@ -81,7 +83,8 @@ $(function () {
         if (!sSaltNa) {
             message.showError("盐类不存在");
             return
-        } else if (![1, 2, 3, 4, 5, 6, 7].includes(parseInt(sSaltNa))) {
+        }
+        if (![1, 2, 3, 4, 5, 6, 7].includes(parseInt(sSaltNa))) {
             message.showError("盐类不存在");
             return
         }
@@ -101,7 +104,7 @@ $(function () {
             message.showError("班组不存在");
             return
         }
-        else if (!["X", "L"].includes(sTeam)) {
+       if (!["X", "L"].includes(sTeam)) {
             message.showError("班组不存在");
             return
         }
@@ -118,7 +121,7 @@ $(function () {
             message.showError("检测人不存在");
             return
         }
-        else if (!["H", "T"].includes(sInspector)) {
+        if (!["H", "T"].includes(sInspector)) {
             message.showError("检测人不存在");
             return
         }
@@ -144,7 +147,7 @@ $(function () {
 
         let sNewSaltId = $(this).data("new-salt-id");
         $.ajax({
-            url: sNewSaltId ? "/salt/new/edit/" + sNewSaltId + "/" : "/salt/new/pub/",
+            url: sNewSaltId ? "/salt/new/edit/" + sNewSaltId + "/" : "/salt/new/add/",
             type: sNewSaltId ? "PUT" : "POST",
             data: JSON.stringify(sDataParams),
             contentType: "application/json;charset=utf8",
@@ -162,7 +165,7 @@ $(function () {
                     } else {
                         message.showSuccess("新盐数据发布成功");
                         setTimeout(function () {
-                            window.location.reload()
+                            window.location.href = '/salt/new';
 
                         }, 800)
                     }

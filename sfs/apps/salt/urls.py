@@ -9,6 +9,14 @@ from salt import views
 app_name = "salt"
 urlpatterns = [
     path("new/",views.SaltNewShow.as_view(),name = "new"),
+    path("new/add/",views.SaltNewAdd.as_view(),name="salt_new_add"),
     path("new/edit/<int:new_salt_id>/",views.SaltNewEdit.as_view(),name = "new_salt_edit"),
+
+
+    path("na/",views.SaltNAShow.as_view(),name="na"),
+    path("na/add/", views.SaltNaAdd.as_view(), name="na_add"),
+    path("na/edit/<int:na_id>/",views.SaltNAEdit.as_view(),name="na_edit"),
+
+
 
 ]

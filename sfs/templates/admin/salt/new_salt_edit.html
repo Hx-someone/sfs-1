@@ -13,7 +13,7 @@
 
         <h1 class="page-header">{% block content_title %}数据修改{% endblock %}</h1>
 
-        <div style="margin-bottom: 10px;" class="input-group input-group-lg ">
+        <div style="margin-bottom: 10px; " class="input-group input-group-lg ">
             <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="check-time">检测日期:</label>
             {% if data.check_time %}
                 <input style="width:300px" type="text" name="check-time" id="check-time" class="form-control"
@@ -21,12 +21,13 @@
                        value
                                ={{ data.check_time|date_str }}>
             {% else %}
-                <input type="text" class="form-control" placeholder="请输入检测日期">
+                <input style="width:300px" type="text" name="check-time" id="check-time" class="form-control"
+                       placeholder="请输入检测日期">
             {% endif %}
         </div>
 
 
-        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+        <div style="margin-bottom: 10px;width:300px" class="input-group input-group-lg">
             <label class="input-group-addon" style="width: 100px" id="sizing-addon1">炉&emsp;&emsp;号:</label>
 
             {% if data.stove_number %}
@@ -35,7 +36,8 @@
                        value=
                                {{ data.stove_number }} aria-describedby="basic-addon2">
             {% else %}
-                <input type="text" id="stove-number" name="stove-number" class="form-control" placeholder="请输入炉号"
+                <input style="width:300px" type="text" id="stove-number" name="stove-number" class="form-control"
+                       placeholder="请输入炉号"
                        aria-describedby="basic-addon2">
             {% endif %}
 
@@ -92,17 +94,26 @@
         </div>
         <div style="margin-bottom: 10px;" class="input-group input-group-lg">
             <label class="input-group-addon" style="width: 100px" for="salt-na-name" id="sizing-addon1">盐&nbsp;&nbsp;种&nbsp;&nbsp;类:</label>
-
             <select style="width:300px" class="form-control" name="salt-na-name" id="salt-na-name">
-                {% for na in na_query_set %}
-                    {% if data.salt_na.name in na.all %}
-                        <option value={{ na.id }} title="{{ data.salt_na.name }}" selected>
-                            {{ data.salt_na.name }}</option>
-                    {% else %}
-                        <option value="{{ na.id }}"
-                                title="{{ na.name }}">{{ na.name }}</option>
-                    {% endif %}
-                {% endfor %}
+                {% if data %}
+                    {% for na in na_query_set %}
+                        {% if data.salt_na.name in na.all %}
+                            <option value={{ na.id }} title="{{ data.salt_na.name }}" selected>
+                                {{ data.salt_na.name }}</option>
+                        {% else %}
+                            <option value="{{ na.id }}"
+                                    title="{{ na.name }}">{{ na.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <option title="请选择NA类型" selected>请选择NA类型</option>
+                    {% for na in salt_na_queryset %}
+                        <option value={{ na.id }} title="{{ na.name }}">
+                            {{ na.name }}</option>
+
+                    {% endfor %}
+                {% endif %}
+
             </select>
         </div>
         <div style="margin-bottom: 10px;" class="input-group input-group-lg">
@@ -145,16 +156,17 @@
         </div>
         <div style="margin-bottom: 10px;" class="input-group input-group-lg">
             <label class="input-group-addon" style="width: 100px" id="sizing-addon1">检测人员:</label>
+            {% if data.inspector %}
+                {% if data.inspector  == 0 or data.inspector  == 1 %}
+                    <input style="width:300px" type="text" id="inspector" name="inspector" class="form-control"
+                           placeholder="请输入检测人员"
+                           value={{ data.inspector|inspector_choice }} aria-describedby="basic-addon2">
+                {% endif %}
 
-            {% if data.inspector  == 0 or data.inspector  == 1 %}
-                <input style="width:300px" type="text" id="inspector" name="inspector" class="form-control"
-                       placeholder="请输入检测人员"
-                       value={{ data.inspector|inspector_choice }}>
             {% else %}
-                <input style="width:300px" type="text" id="inspecto " name="inspector" class="form-control"
-                       placeholder="请输入检测人员">
+                <input style="width:300px" type="text" id="inspector " name="inspector" class="form-control"
+                       placeholder="请输入检测人员" aria-describedby="basic-addon2">
             {% endif %}
-
         </div>
         <div style="margin-bottom: 10px;" class="input-group input-group-lg">
             <label class="input-group-addon" style="width: 100px" id="sizing-addon1">备&emsp;&emsp;注:</label>
@@ -172,11 +184,11 @@
         </div>
         <div class="box-footer">
             {% if data %}
-                <a href="javascript:void (0);" class="btn btn-danger pull-left" id="btn-edit-new-salt"
+                <a href="javascript:void (0);" class="btn btn-danger pull-left" id="btn-salt-new-edit"
                    data-new-salt-id="{{ data.id }}">更新新盐数据 </a>
             {% else %}
-                <a href="javascript:void (0);" class="btn btn-primary pull-right"
-                   id="btn-pub-new-salt">添加新盐数据 </a>
+                <a href="javascript:void (0);" class="btn btn-primary pull-left "
+                   id="btn-salt-new-edit">添加新盐数据 </a>
             {% endif %}
         </div>
     </div>
@@ -184,5 +196,5 @@
 
 
 {% block script %}
-    <script src="{% static 'js/admin/salt/new_salt_edit_put.js' %}"></script>
+    <script src="{% static 'js/admin/salt/salt_new_edit.js' %}"></script>
 {% endblock %}
