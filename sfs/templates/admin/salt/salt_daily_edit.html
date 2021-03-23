@@ -1,0 +1,165 @@
+{% extends "admin/salt/base_salt.html" %}
+{% load staticfiles %}
+{% load mytags %}
+{% block title %}
+    {% if salt_daily %}
+        炉盐更新
+    {% else %}
+        炉盐添加
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    {% if salt_daily %}
+    <h1>{% block sub_header %}炉盐更新{% endblock %}</h1>
+        {% else %}
+        <h1>{% block data_add %}<a href="javascript:void(0)">炉盐添加</a>{% endblock %}</h1>
+    {% endif %}
+
+
+        <div style="margin-bottom: 10px; " class="input-group input-group-lg ">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="check-time">检测日期:</label>
+            {% if salt_daily %}
+                <input style="width:300px" type="text" name="check-time" id="check-time" class="form-control"
+                       placeholder="请输入检测日期" value={{ salt_daily.check_time|date}}>
+            {% else %}
+                <input style="width:300px" type="text" name="check-time" id="check-time" class="form-control"
+                       placeholder="请输入检测日期">
+            {% endif %}
+        </div>
+
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">编&emsp;&emsp;号:</label>
+            {% if salt_daily %}
+                <input style="width:300px" type="text" id="number" name="number" class="form-control"
+                       placeholder="请输入编号" value={{ salt_daily.number }} aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:300px" type="text" id="number" name="number" class="form-control"
+                       placeholder="请输入编号" aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;width:300px" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">炉&emsp;&emsp;号:</label>
+            <select style="width:300px" class="form-control" name="stove-number" id="stove-number">
+                <option value="0" title="请选择化盐炉号">请选择取盐炉号</option>
+                {% for stove_number in stove_number_set %}
+                    {% if salt_daily and salt_daily.stove_number.number == stove_number.number %}
+                        <option value={{ stove_number.id }} title="{{ salt_daily.stove_number.number }}" selected>
+                            {{ salt_daily.stove_number.number }}</option>
+                    {% else %}
+                        <option value="{{ stove_number.id }}"
+                                title="{{ stove_number.number }}">{{ stove_number.number }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" for="salt-na-name" id="sizing-addon1">盐&nbsp;&nbsp;种&nbsp;&nbsp;类:</label>
+            <select style="width:300px" class="form-control" name="salt-na-name" id="salt-na-name">
+                <option value="0" title="请选择NA种类">请选择NA种类</option>
+                {% for na in salt_na_queryset %}
+                    {% if salt_daily and salt_daily.salt_na.name == na.name %}
+                        <option value={{ na.id }} title="{{ salt_daily.salt_na.name }}" selected>
+                            {{ salt_daily.salt_na.name }}</option>
+                    {% else %}
+                        <option value="{{ na.id }}" title="{{ na.name }}">{{ na.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">氰&emsp;&emsp;根:</label>
+            {% if salt_daily %}
+                <input style="width:300px" type="text" id="cn" name="cn" class="form-control" placeholder="请输入氰根"
+                       value={{ salt_daily.cn }} aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:300px" type="text" id="cn" name="cn" class="form-control" placeholder="请输入氰根"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px"
+                   id="sizing-addon1">碳&nbsp;&nbsp;酸&nbsp;&nbsp;根:</label>
+            {% if salt_daily %}
+                <input style="width:300px" type="text" id="co3" name="co3" class="form-control" placeholder="请输入碳酸根"
+                       value={{ salt_daily.co3 }} aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:300px" type="text" id="co3" name="co3" class="form-control" placeholder="请输入碳酸根"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px"
+                   id="sizing-addon1">氰&nbsp;&nbsp;酸&nbsp;&nbsp;根:</label>
+            {% if salt_daily %}
+                <input style="width:300px" type="text" id="cno" name="cno" class="form-control" placeholder="请输入氰酸根"
+                       value={{ salt_daily.cno }} aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:300px" type="text" id="cno" name="cno" class="form-control" placeholder="请输入氰酸根"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+
+        <div style="margin-bottom: 10px;width:300px" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">状&emsp;&emsp;态:</label>
+            <select style="width:300px" class="form-control" name="status" id="status">
+                <option value="0" title="请选择炉盐状态">请选择炉盐状态</option>
+                {% for status in status_set %}
+                    {% if salt_daily and salt_daily.status.status == status.status %}
+                        <option value={{ status.id }} title="{{ salt_daily.status.status }}" selected>
+                            {{ salt_daily.status.status }}</option>
+                    {% else %}
+                        <option value="{{ status.id }}"
+                                title="{{ status.status }}">{{ status.status }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">检测人员:</label>
+
+            <select style="width:300px" class="form-control" name="inspector" id="inspector">
+                <option value="0" title="请输入检测人员">请输入检测人员</option>
+                {% for inspector in inspector_set %}
+                    {% if salt_daily and salt_daily.inspector.name == inspector.name %}
+                        <option value={{ inspector.id }} title="{{ salt_daily.inspector.name }}" selected>
+                            {{ salt_daily.inspector.name }}</option>
+                    {% else %}
+                        <option value="{{ inspector.id }}" title="{{ inspector.name }}">{{ inspector.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">备&emsp;&emsp;注:</label>
+
+            {% if salt_daily %}
+                <input style="width:300px" style="width:300px" type="text" id="remark" name="remark"
+                       class="form-control"
+                       placeholder="请输入备注"
+                       value={{ salt_daily.remark }}>
+            {% else %}
+                <input style="width:300px" type="text" id="remark" name="remark" class="form-control"
+                       placeholder="请输入备注">
+            {% endif %}
+
+        </div>
+        <div class="box-footer">
+            {% if salt_daily %}
+                <a href="javascript:void (0);" class="btn btn-danger pull-left" id="btn-salt-daily-edit"
+                   data-salt-daily-id="{{ salt_daily.id }}">更新新盐数据 </a>
+            {% else %}
+                <a href="javascript:void (0);" class="btn btn-primary pull-left "
+                   id="btn-salt-daily-edit">添加新盐数据 </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/admin/salt/salt_daily_edit.js' %}"></script>
+{% endblock %}

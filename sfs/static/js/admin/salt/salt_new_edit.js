@@ -35,16 +35,20 @@ $(function () {
         }
 
         //炉号
-        let sStoveNumber = $("#stove-number").val();
+        let sStoveNumber = $("#stove-number option:selected").val();
         if (!sStoveNumber) {
             message.showError("炉号不存在");
+            return
+        }
+        if(sStoveNumber === "0"){
+            message.showError("请选择炉号");
             return
         }
         if (!(/\d/).test(sStoveNumber)) {
             message.showError("炉号格式不正确");
             return
         }
-
+        // sStoveNumber = parseInt(sStoveNumber); //将炉号的id转化为整数
 
         //编号
         let sNumber = $("#number").val();
@@ -60,12 +64,18 @@ $(function () {
         //碳酸根
         let sCo3 = $("#co3").val();
         // "^([+-]?)\\d*\\.\\d+$"
+         if(!sCo3){
+            sCo3 = 0
+        }
         if ((/^\d*\\.\\d+$/).test(sCo3)) {
             message.showError("碳酸根格式不正确");
             return
         }
         //cn
         let sCn = $("#cn").val();
+        if(!sCn){
+            sCn = 0
+        }
         if ((/^\d*\\.\\d+$/).test(sCn)) {
             message.showError("氰根格式不正确");
             return
@@ -73,21 +83,32 @@ $(function () {
 
         //cno
         let sCno = $("#cno").val();
+        if(!sCno){
+            sCno = 0
+        }
         if ((/^\d*\\.\\d+$/).test(sCno)) {
             message.showError("氰酸根格式不正确");
             return
         }
 
+
+
         //salt-na-id
-        let sSaltNa = $("#salt-na-name").val();
+        let sSaltNa = $("#salt-na-name option:selected").val();
         if (!sSaltNa) {
             message.showError("盐类不存在");
             return
         }
-        if (![1, 2, 3, 4, 5, 6, 7].includes(parseInt(sSaltNa))) {
-            message.showError("盐类不存在");
+        if (sSaltNa === "0") {
+            message.showError("请选择盐类");
             return
         }
+        if (!(/\d/).test(sSaltNa)) {
+            message.showError("盐类格式不正确");
+            return
+        }
+        // sSaltNa = parseInt(sSaltNa);
+
 
         //batch
         let sBatch = $("#batch").val();
@@ -99,15 +120,21 @@ $(function () {
         }
 
         //team
-        let sTeam = $("#team").val();
+        let sTeam = $("#team option:selected").val();
         if (!sTeam) {
             message.showError("班组不存在");
             return
         }
-       if (!["X", "L"].includes(sTeam)) {
-            message.showError("班组不存在");
+
+        if (sTeam == "0") {
+            message.showError("请选择班组");
             return
         }
+        if (!(/\d/).test(sSaltNa)) {
+            message.showError("班组格式不正确");
+            return
+        }
+
         //thaw-date
         let sThawDate = $("#thaw-date").val();
         if (!sThawDate) {
@@ -116,13 +143,18 @@ $(function () {
         }
 
         //inspector
-        let sInspector = $("#inspector").val();
+        let sInspector = $("#inspector option:selected").val();
         if (!sInspector) {
             message.showError("检测人不存在");
             return
         }
-        if (!["H", "T"].includes(sInspector)) {
-            message.showError("检测人不存在");
+
+        if (sInspector == "0") {
+            message.showError("请选择检测人");
+            return
+        }
+        if (!(/\d/).test(sInspector)) {
+            message.showError("检测人格式不正确");
             return
         }
 
@@ -139,9 +171,9 @@ $(function () {
             "cno": parseFloat(sCno),
             "salt_na": parseInt(sSaltNa),
             "batch": sBatch,
-            "team": sTeam,
+            "team": parseInt(sTeam),
             "thaw_date": sThawDate,
-            "inspector": sInspector,
+            "inspector": parseInt(sInspector),
             "remark": sRemark,
         };
 

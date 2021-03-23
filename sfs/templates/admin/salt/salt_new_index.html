@@ -1,0 +1,156 @@
+{% extends "admin/salt/base_salt.html" %}
+{% load staticfiles %}
+{% load mytags %}
+
+{% block sub_header %}
+    新盐检测
+{% endblock %}
+{% block data_add %}<a href="{% url 'salt:salt_new_add' %}">添加新盐检测数据</a>{% endblock %}
+{% block table_data %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>检测日期</th>
+                <th>炉号</th>
+                <th>编号</th>
+                <th>碳酸根</th>
+                <th>氰根</th>
+                <th>氰酸根</th>
+                <th>盐类</th>
+                <th>批号</th>
+                <th>化盐班组</th>
+                <th>化盐日期</th>
+                <th>检测人</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in new_salt_info %}
+                <tr>
+                    <td>{{ data.check_time|date:"Y-m-d" }}</td>
+                    <td>{{ data.stove_number.number }}</td>
+                    <td>{{ data.number }}</td>
+
+                    {% if  data.salt_na.name == "W4" and data.co3 > 14 or data.co3 < 9 %}
+                        <td style="color: red">{{ data.co3 }}</td>
+                    {% elif  ata.salt_na.name == "W1"  and data.co3 > 14 or data.co3 < 10 %}
+                        <td style="color: red">{{ data.co3 }}</td>
+                    {% elif  data.salt_na.name == "QM"  and data.co3 > 16 or data.co3 < 10 %}
+                        <td style="color: red">{{ data.co3 }}</td>
+                    {% elif data.salt_na.name == "WH"  and data.co3 > 14 or data.co3 < 9 %}
+                        <td style="color: red">{{ data.co3 }}</td>
+                    {% elif  data.salt_na.name == "C-L-N"  and data.co3 > 16 or data.co3 < 10 %}
+                        <td style="color: red">{{ data.co3 }}</td>
+                    {% else %}
+                        <td>{{ data.co3 }}</td>
+                    {% endif %}
+
+                    {% if data.cn > 0.6 or data.cn < 0.1 %}
+                        <td style="color: red">{{ data.cn }}</td>
+                    {% else %}
+                        <td>{{ data.cn }}</td>
+                    {% endif %}
+
+                    {% if  data.salt_na.name == "W4" and data.cno > 38 or data.cno < 32 %}
+                        <td style="color: red">{{ data.cno }}</td>
+                    {% elif  data.salt_na.name == "WH" and data.cno > 39 or data.cno < 33 %}
+                        <td style="color: red">{{ data.cno }}</td>
+                    {% elif  data.salt_na.name == "W1" and data.cno > 38 or data.cno < 32 %}
+                        <td style="color: red">{{ data.cno }}</td>
+                    {% elif data.salt_na.name == "QM" and data.cno > 36 or data.cno < 30 %}
+                        <td style="color: red">{{ data.cno }}</td>
+                    {% elif  data.salt_na.name == "C-L-N" and data.cno > 37 or data.cno < 31 %}
+                        <td style="color: red">{{ data.cno }}</td>
+                    {% else %}
+                        <td>{{ data.cno }}</td>
+                    {% endif %}
+                    <td>{{ data.salt_na.name }}</td>
+                    <td>{{ data.batch }}</td>
+
+                    <td>{{ data.team.name }}</td>
+                    <td>{{ data.thaw_date|date:"Y-m-d" }}</td>
+
+                    <td>{{ data.inspector.name}}</td>
+                    <td>{{ data.remark }}</td>
+                    <td>
+                        <a href="{% url 'salt:salt_new_edit' data.id %}" class="btn-edit">编辑</a>&nbsp;&nbsp;
+                        <a href="javascript:void (0);" class="btn-del" data-new-id='{{ data.id }}'>删除</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="box-footer">
+                    <span class="fa-pull-left">第{{ current_page_num }}页/共{{ total_page_num }}页&emsp;&emsp;共
+                        {{ total_data_num }}条</span>
+        <nav class="fa-pull-right" aria-label="Page navigation">
+            <!-- 分页 -->
+            <ul class="pagination">
+
+                <!-- 上一页 -->
+                {% if new_salt_info.has_previous %}
+                    <li><a class="page-link" href="?page={{ new_salt_info.previous_page_number }}
+                                &{{ other_param }}">上一页</a>
+                    </li>
+                {% else %}
+                    {#                                <li class="disabled"><a href="javascript:void(0);">上一页</a></li>#}
+                    <li><a class="page-link" href="#">上一页</a></li>
+                {% endif %}
+
+                <!-- 左标记 -->
+                {% if left_has_more_page %}
+                    <li><a class="page-link" href="?page=1&{{ other_param }}">1</a></li>
+                    <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                {% endif %}
+
+
+                <!-- 左边的页码 -->
+                {% for left_page in left_page_range %}
+                    <li><a class="page-link" href="?page={{ left_page }}&{{ other_param }}"
+                    >{{ left_page }}</a></li>
+                {% endfor %}
+
+                <!-- 当前页面 -->
+                {% if current_page_num %}
+                    <li class="page-item active"><a class="page-link"
+                                                    href="?page={{ current_page_num }}&{{ other_param }}">{{ current_page_num }}</a>
+                    </li>
+                {% endif %}
+
+
+                <!-- 右边的页面 -->
+                {% for right_page in right_page_range %}
+                    <li><a class="page-link" href="?page={{ right_page }}&{{ other_param }}"
+                    >{{ right_page }}</a></li>
+                {% endfor %}
+
+                <!-- 右标记 -->
+                {% if right_has_more_page %}
+                    <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                    <li><a class="page-link" href="?page={{ total_page_num }}&{{ other_param }}"
+                    >{{ total_page_num }}</a></li>
+                {% endif %}
+
+                <!-- 下一页 -->
+                {% if new_salt_info.has_next %}
+                    <li><a class="page-link" href="?page={{ new_salt_info.next_page_number }}
+                                &{{ other_param }}">下一页</a></li>
+                {% else %}
+                    {#                                <li class="disabled"><a href="javascript:void(0);">下一页</a></li>#}
+                    <li><a class="page-link" href="#">下一页</a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/admin/salt/salt_new_delete.js' %}"></script>
+{% endblock %}

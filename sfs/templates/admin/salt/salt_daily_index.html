@@ -1,38 +1,42 @@
-{% extends "admin/salt/base_salt.html" %}
+{% extends 'admin/salt/base_salt.html' %}
 {% load staticfiles %}
 {% load mytags %}
-
-{% block sub_header %}
-    新盐检测
+{% block title %}
+    炉盐检测
 {% endblock %}
-{% block data_add %}<a href="{% url 'salt:salt_new_add' %}">添加新盐检测数据</a>{% endblock %}
+{% block sub_header %}炉盐检测{% endblock %}
+{% block data_add %}<a href="">添加炉盐数据</a>{% endblock %}
+
 {% block table_data %}
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>检测日期</th>
-                <th>炉号</th>
                 <th>编号</th>
-                <th>碳酸根</th>
-                <th>氰根</th>
-                <th>氰酸根</th>
+                <th>炉号</th>
                 <th>盐类</th>
-                <th>批号</th>
-                <th>化盐班组</th>
-                <th>化盐日期</th>
+                <th>氰根</th>
+                <th>碳酸根</th>
+                <th>氰酸根</th>
+                <th>状态</th>
                 <th>检测人</th>
                 <th>备注</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            {% for data in new_salt_info %}
+            {% for data in salt_daily_info %}
                 <tr>
                     <td>{{ data.check_time|date:"Y-m-d" }}</td>
-                    <td>5</td>
                     <td>{{ data.number }}</td>
-
+                    <td>{{ data.stove_number.number }}</td>
+                    <td>{{ data.salt_na.name }}</td>
+                    {% if data.cn > 0.6 or data.cn < 0.1 %}
+                        <td style="color: red">{{ data.cn }}</td>
+                    {% else %}
+                        <td>{{ data.cn }}</td>
+                    {% endif %}
                     {% if  data.salt_na.name == "W4" and data.co3 > 14 or data.co3 < 9 %}
                         <td style="color: red">{{ data.co3 }}</td>
                     {% elif  ata.salt_na.name == "W1"  and data.co3 > 14 or data.co3 < 10 %}
@@ -46,13 +50,6 @@
                     {% else %}
                         <td>{{ data.co3 }}</td>
                     {% endif %}
-
-                    {% if data.cn > 0.6 or data.cn < 0.1 %}
-                        <td style="color: red">{{ data.cn }}</td>
-                    {% else %}
-                        <td>{{ data.cn }}</td>
-                    {% endif %}
-
                     {% if  data.salt_na.name == "W4" and data.cno > 38 or data.cno < 32 %}
                         <td style="color: red">{{ data.cno }}</td>
                     {% elif  data.salt_na.name == "WH" and data.cno > 39 or data.cno < 33 %}
@@ -66,17 +63,13 @@
                     {% else %}
                         <td>{{ data.cno }}</td>
                     {% endif %}
-                    <td>{{ data.salt_na.name }}</td>
-                    <td>{{ data.batch }}</td>
 
-                    <td>{{ data.team|team_choice }}</td>
-                    <td>{{ data.thaw_date|date:"Y-m-d" }}</td>
-
-                    <td>{{ data.inspector|inspector_choice }}</td>
+                    <td>{{ data.status.status }}</td>
+                    <td>{{ data.inspector.name }}</td>
                     <td>{{ data.remark }}</td>
                     <td>
-                        <a href="{% url 'salt:new_salt_edit' data.id %}" class="btn-edit">编辑</a>&nbsp;&nbsp;
-                        <a href="javascript:void (0);" class="btn-del" data-new-id='{{ data.id }}'>删除</a>
+                        <a href="{% url 'salt:salt_daily_edit' data.id %}" class="btn-edit">编辑</a>&nbsp;&nbsp;
+                        <a href="javascript:void (0);" class="btn-del" data-salt-daily-id='{{ data.id }}'>删除</a>
                     </td>
 
                 </tr>
@@ -94,8 +87,8 @@
             <ul class="pagination">
 
                 <!-- 上一页 -->
-                {% if new_salt_info.has_previous %}
-                    <li><a class="page-link" href="?page={{ new_salt_info.previous_page_number }}
+                {% if salt_daily_info.has_previous %}
+                    <li><a class="page-link" href="?page={{ salt_daily_info.previous_page_number }}
                                 &{{ other_param }}">上一页</a>
                     </li>
                 {% else %}
@@ -138,8 +131,8 @@
                 {% endif %}
 
                 <!-- 下一页 -->
-                {% if new_salt_info.has_next %}
-                    <li><a class="page-link" href="?page={{ new_salt_info.next_page_number }}
+                {% if salt_daily_info.has_next %}
+                    <li><a class="page-link" href="?page={{ salt_daily_info.next_page_number }}
                                 &{{ other_param }}">下一页</a></li>
                 {% else %}
                     {#                                <li class="disabled"><a href="javascript:void(0);">下一页</a></li>#}
@@ -149,8 +142,4 @@
             </ul>
         </nav>
     </div>
-{% endblock %}
-
-{% block script %}
-    <script src="{% static 'js/admin/salt/salt_new_delete.js' %}"></script>
 {% endblock %}

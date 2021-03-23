@@ -1,0 +1,141 @@
+{% extends 'admin/base.html' %}
+
+{% load staticfiles %}
+{% load mytags %}
+{% block title %}
+    {% if data %}
+        NA修改
+    {% else %}
+        NA添加
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+        <h1 class="page-header">
+            {% block content_title %}
+                {% if data %}
+                    NA修改
+                {% else %}
+                    NA添加
+                {% endif %}
+
+            {% endblock %}
+        </h1>
+
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg ">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="name">基盐名字:</label>
+            {% if data.name %}
+                <input style="width:600px" type="text" name="name" id="name" class="form-control"
+                       placeholder="请输入基盐名字"
+                       value
+                               ="{{ data.name }}">
+            {% else %}
+                <input style="width:600px " type="text" name="name" id="name"  class="form-control" placeholder="请输入基盐名字">
+            {% endif %}
+        </div>
+
+
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">类&emsp;&emsp;型:</label>
+
+            {% if data.type %}
+                <input style="width:600px" type="text" id="type" name="type" class="form-control"
+                       placeholder="请输入类型"
+                       value="{{ data.type }}" aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:600px" type="text" id="type" name="type" class="form-control" placeholder="请输入类型"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">化盐工艺:</label>
+            {% if data.new_salt_thaw_craft %}
+                <input style="width:600px" type="text" id="new_salt_thaw_craft" name="new_salt_thaw_craft"
+                       class="form-control"
+                       placeholder="请输入化盐工艺"
+                       value="{{ data.new_salt_thaw_craft }}" aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:600px" type="text" id="new_salt_thaw_craft" name="new_salt_thaw_craft"
+                       class="form-control"
+                       placeholder="请输入化盐工艺"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px"
+                   id="sizing-addon1">新盐工艺:</label>
+            {% if data.using_salt_thaw_craft %}
+                <input style="width:600px" type="text" id="using_salt_thaw_craft" name="using_salt_thaw_craft"
+                       class="form-control" placeholder="请输入新盐工艺"
+                       value="{{ data.using_salt_thaw_craft }}" aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:600px" type="text" id="using_salt_thaw_craft" name="using_salt_thaw_craft"
+                       class="form-control" placeholder="请输入新盐工艺"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">实用范围:</label>
+            {% if data.apply_alloy %}
+                <input style="width:600px" type="text" id="apply_alloy" name="apply_alloy" class="form-control"
+                       placeholder="请输入实用范围"
+                       value="{{ data.apply_alloy }}" aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:600px" type="text" id="apply_alloy" name="apply_alloy" class="form-control"
+                       placeholder="请输入实用范围"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px"
+                   id="sizing-addon1">特&emsp;&emsp;性</label>
+
+            {% if data.trait %}
+                <input style="width:600px" type="text" id="trait" name="trait" class="form-control" placeholder="请输入特性"
+                       value="{{ data.trait }}" aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:600px" type="text" id="trait" name="trait" class="form-control" placeholder="请输入特性"
+                       aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">备&emsp;&emsp;注:</label>
+
+            {% if data.remark %}
+                <input style="width:600px" type="text" id="remark" name="remark"
+                       class="form-control"
+                       placeholder="请输入备注"
+                       value="{{ data.remark }}">
+            {% else %}
+                <input style="width:600px" type="text" id="remark" name="remark" class="form-control"
+                       placeholder="请输入备注">
+            {% endif %}
+
+        </div>
+        <div class="box-footer">
+            {% if data %}
+                <a href="javascript:void (0);" class="btn btn-danger pull-left" id="btn-edit-salt-na"
+                   data-salt-na-id="{{ data.id }}">更新NA数据 </a>
+            {% else %}
+                <a href="javascript:void (0);" class="btn btn-primary pull-right"
+                   id="btn-edit-salt-na">添加NA数据 </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'js/admin/salt/salt_na_edit.js' %}"></script>
+{% endblock %}

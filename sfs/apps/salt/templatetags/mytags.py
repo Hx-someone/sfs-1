@@ -32,5 +32,4 @@ def date_format(_date):
     :param _date:  日期格式
     :return:
     """
-
     return datetime.strftime(_date,"%Y-%m-%d")
