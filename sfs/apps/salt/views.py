@@ -16,10 +16,6 @@ from utils.models_common import view_model
 from utils.code.res_code import Code, error_map
 from utils.code.json_function import to_json_data
 
-
-
-
-
 logger = logging.getLogger('common_info')
 
 
@@ -65,17 +61,17 @@ class SaltNewShow(View):
 class SaltNewEdit(View):
     """新盐数据编辑"""
 
-    def get(self, request, new_salt_id):
+    def get(self, request, salt_new_id):
         """展示数据"""
-        new_salt = _models.SaltNew.objects.filter(is_delete=False, id=new_salt_id).first()
+        new_salt = _models.SaltNew.objects.filter(is_delete=False, id=salt_new_id).first()
         # salt_na_queryset = _models.SaltNA.objects.only("id", "name").filter(is_delete=False)
         # team_set = _models.Team.objects.only("id", "name").filter(is_delete=False)
         # inspector_set = _models.Inspector.objects.only("id", "name").filter(is_delete=False)
         # stove_number_set = _models.StoveNumber.objects.only("id", "number").filter(is_delete=False)
-        salt_na_queryset = view_model.salt_common(_models.SaltNA,"id","name")
-        team_set = view_model.salt_common(_models.Team,"id", "name")
-        inspector_set = view_model.salt_common(_models.Inspector,"id", "name")
-        stove_number_set = view_model.salt_common(_models.StoveNumber,"id", "number")
+        salt_na_queryset = view_model.salt_common(_models.SaltNA, "id", "name")
+        team_set = view_model.salt_common(_models.Team, "id", "name")
+        inspector_set = view_model.salt_common(_models.Inspector, "id", "name")
+        stove_number_set = view_model.salt_common(_models.StoveNumber, "id", "number")
 
         if new_salt:
             return render(request, 'admin/salt/salt_new_edit.html', context={
@@ -88,10 +84,10 @@ class SaltNewEdit(View):
         else:
             return Http404("新盐数据不存在")
 
-    def delete(self, request, new_salt_id):
+    def delete(self, request, salt_new_id):
         """删除新盐检测数据"""
 
-        new_salt = _models.SaltNew.objects.only("id").filter(is_delete=False, id=new_salt_id).first()
+        new_salt = _models.SaltNew.objects.only("id").filter(is_delete=False, id=salt_new_id).first()
         if new_salt:
             new_salt.is_delete = True
             new_salt.save(update_fields=["is_delete"])
@@ -99,9 +95,9 @@ class SaltNewEdit(View):
         else:
             return to_json_data(errno=Code.PARAMERR, errmsg=error_map[Code.PARAMERR])
 
-    def put(self, request, new_salt_id):
+    def put(self, request, salt_new_id):
         """更新新盐检测数据"""
-        new_salt = _models.SaltNew.objects.filter(is_delete=False, id=new_salt_id).first()
+        new_salt = _models.SaltNew.objects.filter(is_delete=False, id=salt_new_id).first()
         if not new_salt:
             return to_json_data(errno=Code.PARAMERR, errmsg=error_map[Code.PARAMERR])
         try:
@@ -131,6 +127,8 @@ class SaltNewEdit(View):
 
 
 class SaltNewAdd(View):
+    """新盐数据的添加"""
+
     def get(self, request):
         """
         新盐检测数据添加
@@ -219,6 +217,8 @@ class SaltNAShow(View):
 
 
 class SaltNaAdd(View):
+    """基盐数据的添加"""
+
     def get(self, request):
         """
         salt na add index
@@ -318,8 +318,10 @@ class SaltNAEdit(View):
 
 
 class SaltDailyShow(View):
+    """炉盐检测数据的展示"""
+
     def get(self, request):
-        salt_daily_set = _models.SaltCheck.objects.defer("version", "create_time", "update_time", "b_total", "a_total", "n_count").filter(is_delete=False)
+        salt_daily_set = _models.SaltCheck.objects.defer("version", "create_time", "update_time").filter(is_delete=False)
         total_data_num = len(salt_daily_set)
         try:
             page_num = int(request.GET.get("page", 1))
@@ -348,9 +350,10 @@ class SaltDailyEdit(View):
     """
     日常炉盐检测的修改和删除
     """
-    def get(self,request,salt_daily_id):
-        salt_daily =  _models.SaltCheck.objects.defer("version", "create_time", "update_time").filter(
-            id=salt_daily_id,is_delete=False).first()
+
+    def get(self, request, salt_daily_id):
+        salt_daily = _models.SaltCheck.objects.defer("version", "create_time", "update_time").filter(
+            id=salt_daily_id, is_delete=False).first()
 
         # inspector_set = _models.Inspector.objects.only("id","name").filter(is_delete=False)
         # status_set = _models.SaltStatus.objects.only("id","status").filter(is_delete=False)
@@ -361,64 +364,91 @@ class SaltDailyEdit(View):
         stove_number_set = view_model.salt_common(_models.StoveNumber, "id", "number")
         status_set = view_model.salt_common(_models.SaltStatus, "id", "status")
         if not salt_daily:
-            return to_json_data(errno=Code.PARAMERR,errmsg="该炉盐检测数据不存在")
+            return to_json_data(errno=Code.PARAMERR, errmsg="该炉盐检测数据不存在")
 
         data = {
-            "salt_daily":salt_daily,
+            "salt_daily": salt_daily,
             "inspector_set": inspector_set,
             "status_set": status_set,
             "stove_number_set": stove_number_set,
-            "salt_na_queryset":salt_na_queryset
+            "salt_na_queryset": salt_na_queryset
 
         }
-        return render(request,"admin/salt/salt_daily_edit.html",context=data)
+        return render(request, "admin/salt/salt_daily_edit.html", context=data)
 
-    def put(self,request,salt_daily_id):
-        salt_daily = _models.SaltCheck.objects.only("id").filter(id=salt_daily_id,is_delete=False).first()
+    def put(self, request, salt_daily_id):
+        salt_daily = _models.SaltCheck.objects.only("id").filter(id=salt_daily_id, is_delete=False).first()
         if not salt_daily:
-            return to_json_data(errno=Code.PARAMERR,errmsg="该条数据不存在")
+            return to_json_data(errno=Code.PARAMERR, errmsg="该条数据不存在")
         try:
             salt_daily_json = request.body
             if not salt_daily_json:
-                return to_json_data(errno=Code.PARAMERR,errmsg="前端传来的body为空")
+                return to_json_data(errno=Code.PARAMERR, errmsg="前端传来的body为空")
             salt_daily_dict = json.loads(salt_daily_json.decode("utf-8"))
         except Exception as e:
             logger.info("炉盐检测数据前端传来数据异常:{}".format(e))
-            return to_json_data(errno=Code.PARAMERR,errmsg="前端传来数据异常")
+            return to_json_data(errno=Code.PARAMERR, errmsg="前端传来数据异常")
 
         daily_form = _forms.SaltDailyForm(salt_daily_dict)
         if daily_form.is_valid():
-            for k,v in daily_form.cleaned_data.items():
-                setattr(_models.SaltCheck,k,v)
+            for k, v in daily_form.cleaned_data.items():
+                setattr(_models.SaltCheck, k, v)
             salt_daily.save()
             return to_json_data(errmsg="炉盐数据更新成功")
         else:
             err_str = error_msg.err_msg_list(daily_form)
-            return to_json_data(errno=Code.PARAMERR,errmsg=err_str)
+            return to_json_data(errno=Code.PARAMERR, errmsg=err_str)
 
-
-
-    def delete(self,request,salt_daily_id):
-        salt_daily = _models.SaltCheck.objects.only("id","number").filter(id=salt_daily_id, is_delete=False).first()
+    def delete(self, request, salt_daily_id):
+        salt_daily = _models.SaltCheck.objects.only("id", "number").filter(id=salt_daily_id, is_delete=False).first()
         if not salt_daily:
             return to_json_data(errno=Code.PARAMERR, errmsg="该条数据不存在")
         salt_daily.is_delete = True
         salt_daily.save(update_fields=["is_delete"])
-        return to_json_data(errmsg=salt_daily.number+"数据删除成功")
+        return to_json_data(errmsg=salt_daily.number + "数据删除成功")
 
 
 class SaltDailyAdd(View):
-    def get(self,request):
+    """炉盐检测数据的添加"""
+
+    def get(self, request):
         salt_na_queryset = view_model.salt_common(_models.SaltNA, "id", "name")
         inspector_set = view_model.salt_common(_models.Inspector, "id", "name")
         stove_number_set = view_model.salt_common(_models.StoveNumber, "id", "number")
         status_set = view_model.salt_common(_models.SaltStatus, "id", "status")
         data = {
-            "salt_na_queryset":salt_na_queryset,
+            "salt_na_queryset": salt_na_queryset,
             "inspector_set": inspector_set,
             "stove_number_set": stove_number_set,
             "status_set": status_set,
         }
-        return render(request,"admin/salt/salt_daily_edit.html",context=data)
-    def post(self,request):
-        pass
+        return render(request, "admin/salt/salt_daily_edit.html", context=data)
+
+    def post(self, request):
+        salt_daily = _models.SaltCheck.objects.only("number").filter(is_delete=False)
+
+        try:
+            daily_add_data_json = request.body
+            if not daily_add_data_json:
+                return to_json_data(errno=Code.PARAMERR, errmsg="炉盐检测数据添加前端数据传递为空！")
+
+            daily_add_data_dict = json.loads(daily_add_data_json.decode("utf-8"))
+        except Exception as e:
+            logger.info("炉盐检测数据添加前端传递数据异常:{}".format(e))
+            return to_json_data(errno=Code.PARAMERR, errmsg="炉盐检测数据添加前端传递数据异常")
+
+        if daily_add_data_dict.get("number") in [i.number for i in salt_daily]:
+            logger.info("{}-检测编码已存在，请重新输入".format(daily_add_data_dict.get("number")))
+            return to_json_data(errno=Code.PARAMERR,
+                                errmsg="{}-检测编码已存在，请重新输入".format(daily_add_data_dict.get("number")))
+
+        daily_form = _forms.SaltDailyForm(daily_add_data_dict)
+
+        if daily_form.is_valid():
+            daily_add = daily_form.save(commit=False)
+            daily_add.save()
+            return to_json_data(errmsg="{}-该条检测数据添加成功！".format(daily_add_data_dict.get("number")))
+        else:
+            err_str = error_msg.err_msg_list(daily_form)
+
+            return to_json_data(errno=Code.PARAMERR, errmsg=err_str)

@@ -21,7 +21,7 @@ $(function () {
             return
         }
 
-        let sNumber = $("#number");
+        let sNumber = $("#number").val();
         if (!sNumber) {
             message.showError("检测编码不能为空，请重新输入！");
             return
@@ -120,50 +120,52 @@ $(function () {
         let sRemark = $("#remark").val();
 
         let sDataParams = {
-            "check_time":sCheckTime,
-            "number":sNumber,
-            "stove_number":sStoveNumber,
-            "salt_na":sSaltNa,
-            "cn":sCn,
-            "co3":sCo3,
-            "cno":sCno,
-            "status":sStatus,
-            "inspector":sInspector,
-            "remark":sRemark,
+            "check_time": sCheckTime,
+            "number": sNumber,
+            "stove_number": sStoveNumber,
+            "salt_na": sSaltNa,
+            "cn": sCn,
+            "co3": sCo3,
+            "cno": sCno,
+            "status": sStatus,
+            "inspector": sInspector,
+            "remark": sRemark,
         };
         let sSaltDailyId = $(this).data("salt-daily-id");
         $.ajax({
-            url:sSaltDailyId?"/salt/daily/edit/"+sSaltDailyId+"/":"/salt/daily/add/",
-            type:sSaltDailyId?"PUT":"POST",
-            data:JSON.stringify(sDataParams),
-            contentType:"application/json;charset=utf8",
-            dataType:"json",
+            url: sSaltDailyId ? "/salt/daily/edit/" + sSaltDailyId + "/" : "/salt/daily/add/",
+            type: sSaltDailyId ? "PUT" : "POST",
+            data: JSON.stringify(sDataParams),
+            contentType: "application/json;charset=utf8",
+            dataType: "json",
         })
             .done(function (res) {
-                if(res.errno === "200"){
-                    if(sSaltDailyId){
+                if (res.errno === "200") {
+                    if (sSaltDailyId) {
                         message.showSuccess("炉盐数据更新成功");
-                    }
-                    else{
+                        setTimeout(function () {
+                            window.location.href = "/salt/daily/"
+                        }, 800)
+                    } else {
                         message.showSuccess("炉盐数据添加成功");
                         setTimeout(function () {
                             window.location.href = "/salt/daily/"
-                        },800)
+                        }, 800)
                     }
-                }
-                else{
-                    if(sSaltDailyId){
-                        message.showSuccess("炉盐数据更新失败"+res.errmsg);
+                } else {
+                    if (sSaltDailyId) {
+                        message.showSuccess("炉盐数据更新失败" + res.errmsg);
                     }
-                    else{
-                        message.showSuccess("炉盐数据添加失败"+res.errmsg);
+                    else {
+                        message.showSuccess("炉盐数据添加失败" + res.errmsg);
                     }
                 }
             })
             .fail(function () {
                 message.showError("服务器超时，请重试！")
             })
+
     });
-
-
 });
+
+

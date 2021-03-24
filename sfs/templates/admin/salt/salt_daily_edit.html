@@ -22,7 +22,7 @@
             <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="check-time">检测日期:</label>
             {% if salt_daily %}
                 <input style="width:300px" type="text" name="check-time" id="check-time" class="form-control"
-                       placeholder="请输入检测日期" value={{ salt_daily.check_time|date}}>
+                       placeholder="请输入检测日期" value={{ salt_daily.check_time|date_str}}>
             {% else %}
                 <input style="width:300px" type="text" name="check-time" id="check-time" class="form-control"
                        placeholder="请输入检测日期">
