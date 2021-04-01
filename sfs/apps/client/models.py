@@ -2,7 +2,7 @@ from django.db import models
 from utils._base_model import base_model
 
 
-# from alloy.models import Alloy
+from alloy.models import Alloy
 
 
 class Client(base_model.BaseModel):
@@ -35,24 +35,47 @@ class Client(base_model.BaseModel):
         return "客户名称:{}".format(self.name)
 
 
-# class ClientDetail(base_model.BaseModel):
-#     """客户产品相关"""
-#     alloy = models.ForeignKey("Alloy",on_delete=models.SET_NULL,null=True,blank=True)  # 关联合金
-#
-#
-#
-#
+class ClientAlloy(base_model.BaseModel):
+    """客户产品相关"""
+    alloy = models.ForeignKey(Alloy,on_delete=models.SET_NULL,null=True,blank=True)  # 关联合金
+
+
+    class Meta:
+        db_table = "tb_client_alloy"
+        verbose_name ="客户产品合金"
+
+
+
+
 # class ClientProblem(base_model.BaseModel):
 #     """"客户产品问题"""
-#     pass
-#
-# class ClientComplaint(base_model.BaseModel):
-#     """客户投诉"""
-#     pass
-#
-# class ClientDifficult(base_model.BaseModel):
-#     """客户难点异常"""
-#     pass
+
+
+class ClientComplaint(base_model.BaseModel):
+    """客户投诉"""
+    complaint = models.CharField(max_length=256,verbose_name="客户投诉")
+    image = models.URLField(default="",verbose_name="客户投诉图片")
+    analyse = models.ForeignKey("ClientComplaintAnalyse",on_delete = models.SET_NULL,null=True,blank = True,
+                                verbose_name="客户投诉分析")
+    client = models.ForeignKey("Client",on_delete = models.SET_NULL,null=True,blank= True,verbose_name="客户")
+
+class ClientDifficult(base_model.BaseModel):
+    """客户难点异常"""
+    difficult = models.TextField(verbose_name="客户难点记录")
+    client = models.ForeignKey("Client",on_delete=models.SET_NULL,null=True,blank=True,verbose_name="客户")
+
+    class Meta:
+        db_table= "tb_client_difficult"
+        verbose_name= "客户难点"
+        verbose_name_plural = verbose_name
+
+class ClientComplaintAnalyse(base_model.BaseModel):
+    """客户投诉分析"""
+    analyse = models.TextField(verbose_name="客户投诉分析")
+    class Meta:
+        db_table = "tb_client_complaint_analyse"
+        verbose_name="客户投诉分析"
+        verbose_name_plural = verbose_name
 
 
 class ClientMark(base_model.BaseModel):

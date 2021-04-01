@@ -237,3 +237,8 @@ class SaltInType(BaseModel):
 
     def __str__(self):
         return "来盐类型:{}".format(self.type)
+
+
+class SaltClientProblem(BaseModel):
+    problem_desc  = models.TextField(max_length=256,verbose_name="问题描述")
+    problem_analyze = models.TextField(verbose_name="问题分析")

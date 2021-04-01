@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'metallographical',
     'tackle',
     'user',
+    'product',
 
 ]
 
@@ -146,7 +147,7 @@ MEDIA_ROOT = [
     os.path.join(BASE_DIR, "media")
 ]
 
-LOOGING = {
+LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {

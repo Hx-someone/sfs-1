@@ -68,10 +68,10 @@ class SaltNewEdit(View):
         # team_set = _models.Team.objects.only("id", "name").filter(is_delete=False)
         # inspector_set = _models.Inspector.objects.only("id", "name").filter(is_delete=False)
         # stove_number_set = _models.StoveNumber.objects.only("id", "number").filter(is_delete=False)
-        salt_na_queryset = view_model.salt_common(_models.SaltNA, "id", "name")
-        team_set = view_model.salt_common(_models.Team, "id", "name")
-        inspector_set = view_model.salt_common(_models.Inspector, "id", "name")
-        stove_number_set = view_model.salt_common(_models.StoveNumber, "id", "number")
+        salt_na_queryset = view_model.view_common(_models.SaltNA, "id", "name")
+        team_set = view_model.view_common(_models.Team, "id", "name")
+        inspector_set = view_model.view_common(_models.Inspector, "id", "name")
+        stove_number_set = view_model.view_common(_models.StoveNumber, "id", "number")
 
         if new_salt:
             return render(request, 'admin/salt/salt_new_edit.html', context={
@@ -139,10 +139,10 @@ class SaltNewAdd(View):
         # team_set = _models.Team.objects.only("id", "name").filter(is_delete=False)
         # inspector_set = _models.Inspector.objects.only("id", "name").filter(is_delete=False)
         # stove_number_set = _models.StoveNumber.objects.only("id", "number").filter(is_delete=False)
-        salt_na_queryset = view_model.salt_common(_models.SaltNA, "id", "name")
-        team_set = view_model.salt_common(_models.Team, "id", "name")
-        inspector_set = view_model.salt_common(_models.Inspector, "id", "name")
-        stove_number_set = view_model.salt_common(_models.StoveNumber, "id", "number")
+        salt_na_queryset = view_model.view_common(_models.SaltNA, "id", "name")
+        team_set = view_model.view_common(_models.Team, "id", "name")
+        inspector_set = view_model.view_common(_models.Inspector, "id", "name")
+        stove_number_set = view_model.view_common(_models.StoveNumber, "id", "number")
         return render(request, 'admin/salt/salt_new_edit.html', context={
             "salt_na_queryset": salt_na_queryset,
             "team_set": team_set,
@@ -359,10 +359,10 @@ class SaltDailyEdit(View):
         # status_set = _models.SaltStatus.objects.only("id","status").filter(is_delete=False)
         # stove_number_set =_models.StoveNumber.objects.only("id","number").filter(is_delete=False)
 
-        salt_na_queryset = view_model.salt_common(_models.SaltNA, "id", "name")
-        inspector_set = view_model.salt_common(_models.Inspector, "id", "name")
-        stove_number_set = view_model.salt_common(_models.StoveNumber, "id", "number")
-        status_set = view_model.salt_common(_models.SaltStatus, "id", "status")
+        salt_na_queryset = view_model.view_common(_models.SaltNA, "id", "name")
+        inspector_set = view_model.view_common(_models.Inspector, "id", "name")
+        stove_number_set = view_model.view_common(_models.StoveNumber, "id", "number")
+        status_set = view_model.view_common(_models.SaltStatus, "id", "status")
         if not salt_daily:
             return to_json_data(errno=Code.PARAMERR, errmsg="该炉盐检测数据不存在")
 
@@ -412,10 +412,10 @@ class SaltDailyAdd(View):
     """炉盐检测数据的添加"""
 
     def get(self, request):
-        salt_na_queryset = view_model.salt_common(_models.SaltNA, "id", "name")
-        inspector_set = view_model.salt_common(_models.Inspector, "id", "name")
-        stove_number_set = view_model.salt_common(_models.StoveNumber, "id", "number")
-        status_set = view_model.salt_common(_models.SaltStatus, "id", "status")
+        salt_na_queryset = view_model.view_common(_models.SaltNA, "id", "name")
+        inspector_set = view_model.view_common(_models.Inspector, "id", "name")
+        stove_number_set = view_model.view_common(_models.StoveNumber, "id", "number")
+        status_set = view_model.view_common(_models.SaltStatus, "id", "status")
         data = {
             "salt_na_queryset": salt_na_queryset,
             "inspector_set": inspector_set,
