@@ -47,7 +47,7 @@ class ClientShow(View):
         data.update(pages_data)
 
 
-        return render(request,"admin/client/index.html",context =data)
+        return render(request,"admin/client/client_index.html",context =data)
 class ClientEdit(View):
     """客户编辑"""
     def get(self,request,client_id):

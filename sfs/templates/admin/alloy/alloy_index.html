@@ -1,10 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'admin/base.html' %}
+{% load staticfiles %}
+{% block title %}
+    材质
+{% endblock %}
 
-</body>
-</html>
+
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+        <h2 class="sub-header">材质</h2>
+        <h2 class="sub-header"><a href="{% url 'alloy:alloy_add' %}">材质添加</a></h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>合金牌号</th>
+                    <th>合金种类</th>
+                    <th>攻关</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for alloy in alloy_info %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ alloy.name }}</td>
+                        <td>{{ alloy.type.type }}</td>
+                        <td>{{ alloy.tackle }}</td>
+                        <td>{{ alloy.remark }}</td>
+                        <td><a href="{% url 'alloy:alloy_edit' alloy.id %}">编辑</a><a href="">删除</a></td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer">
+        <span class="fa-pull-left">第{{ current_page_num }}页/共{{ total_page_num }}页&emsp;&emsp;共
+                        {{ total_alloy }}条</span>
+        <nav class="fa-pull-right" aria-label="Page navigation">
+            <!-- 分页 -->
+            <ul class="pagination">
+
+                <!-- 上一页 -->
+                {% if alloy_info.has_previous %}
+                    <li><a class="page-link" href="?page={{ alloy_info.previous_page_number }}
+                                &{{ other_param }}">上一页</a>
+                    </li>
+                {% else %}
+                    {#                                <li class="disabled"><a href="javascript:void(0);">上一页</a></li>#}
+                    <li><a class="page-link" href="#">上一页</a></li>
+                {% endif %}
+
+                <!-- 左标记 -->
+                {% if left_has_more_page %}
+                    <li><a class="page-link" href="?page=1&{{ other_param }}">1</a></li>
+                    <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                {% endif %}
+
+
+                <!-- 左边的页码 -->
+                {% for left_page in left_page_range %}
+                    <li><a class="page-link" href="?page={{ left_page }}&{{ other_param }}"
+                    >{{ left_page }}</a></li>
+                {% endfor %}
+
+                <!-- 当前页面 -->
+                {% if current_page_num %}
+                    <li class="page-item active"><a class="page-link"
+                                                    href="?page={{ current_page_num }}&{{ other_param }}">{{ current_page_num }}</a>
+                    </li>
+                {% endif %}
+
+
+                <!-- 右边的页面 -->
+                {% for right_page in right_page_range %}
+                    <li><a class="page-link" href="?page={{ right_page }}&{{ other_param }}"
+                    >{{ right_page }}</a></li>
+                {% endfor %}
+
+                <!-- 右标记 -->
+                {% if right_has_more_page %}
+                    <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                    <li><a class="page-link" href="?page={{ total_page_num }}&{{ other_param }}"
+                    >{{ total_page_num }}</a></li>
+                {% endif %}
+
+                <!-- 下一页 -->
+                {% if alloy_info.has_next %}
+                    <li><a class="page-link" href="?page={{ alloy_info.next_page_number }}
+                                &{{ other_param }}">下一页</a></li>
+                {% else %}
+                    {#                                <li class="disabled"><a href="javascript:void(0);">下一页</a></li>#}
+                    <li><a class="page-link" href="#">下一页</a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/admin/alloy/alloy_delete.js' %}"></script>
+{% endblock %}

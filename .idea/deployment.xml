@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="sfs">
+  <component name="PublishConfigData" autoUpload="Always" serverName="sfs" autoUploadExternalChanges="true">
     <serverData>
       <paths name="aly-blog">
         <serverdata>
@@ -52,6 +52,13 @@
         </serverdata>
       </paths>
       <paths name="shop2">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xy">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

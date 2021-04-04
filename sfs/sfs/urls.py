@@ -23,6 +23,7 @@ urlpatterns = [
     path("salt/",include("salt.urls")),
     path("equipment/",include("equipment.urls")),
     path("user/",include("user.urls")), # 用户登录注册
+    path("alloy/",include("alloy.urls")),
 
 
 ]

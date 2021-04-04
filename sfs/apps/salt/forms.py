@@ -6,7 +6,7 @@
 """
 
 from django import forms
-from django.core.validators import RegexValidator
+
 from salt import models as _models
 
 

@@ -3,148 +3,120 @@
 {% block title %}
     客户展示
 {% endblock %}
-{% block sub_header %}炉盐检测{% endblock %}
-{% block data_add %}<a href="">添加炉盐数据</a>{% endblock %}
+
 
 {% block content %}
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-                <h2 class="sub-header">客户展示</h2>
-                <h2 class="sub-header"><a href="{% url 'client:client_add' %}">客户添加</a></h2>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>编号</th>
-                            <th>名字</th>
-                            <th>等级</th>
-                            <th>类型</th>
-                            <th>性质</th>
-                            <th>行业</th>
-                            <th>所属</th>
-                            <th>地址</th>
-                            <th>简介</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1,001</td>
-                            <td>Lorem</td>
-                            <td>ipsum</td>
-                            <td>dolor</td>
-                            <td>sit</td>
-                        </tr>
-                        <tr>
-                            <td>1,002</td>
-                            <td>amet</td>
-                            <td>consectetur</td>
-                            <td>adipiscing</td>
-                            <td>elit</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>Integer</td>
-                            <td>nec</td>
-                            <td>odio</td>
-                            <td>Praesent</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>libero</td>
-                            <td>Sed</td>
-                            <td>cursus</td>
-                            <td>ante</td>
-                        </tr>
-                        <tr>
-                            <td>1,004</td>
-                            <td>dapibus</td>
-                            <td>diam</td>
-                            <td>Sed</td>
-                            <td>nisi</td>
-                        </tr>
-                        <tr>
-                            <td>1,005</td>
-                            <td>Nulla</td>
-                            <td>quis</td>
-                            <td>sem</td>
-                            <td>at</td>
-                        </tr>
-                        <tr>
-                            <td>1,006</td>
-                            <td>nibh</td>
-                            <td>elementum</td>
-                            <td>imperdiet</td>
-                            <td>Duis</td>
-                        </tr>
-                        <tr>
-                            <td>1,007</td>
-                            <td>sagittis</td>
-                            <td>ipsum</td>
-                            <td>Praesent</td>
-                            <td>mauris</td>
-                        </tr>
-                        <tr>
-                            <td>1,008</td>
-                            <td>Fusce</td>
-                            <td>nec</td>
-                            <td>tellus</td>
-                            <td>sed</td>
-                        </tr>
-                        <tr>
-                            <td>1,009</td>
-                            <td>augue</td>
-                            <td>semper</td>
-                            <td>porta</td>
-                            <td>Mauris</td>
-                        </tr>
-                        <tr>
-                            <td>1,010</td>
-                            <td>massa</td>
-                            <td>Vestibulum</td>
-                            <td>lacinia</td>
-                            <td>arcu</td>
-                        </tr>
-                        <tr>
-                            <td>1,011</td>
-                            <td>eget</td>
-                            <td>nulla</td>
-                            <td>Class</td>
-                            <td>aptent</td>
-                        </tr>
-                        <tr>
-                            <td>1,012</td>
-                            <td>taciti</td>
-                            <td>sociosqu</td>
-                            <td>ad</td>
-                            <td>litora</td>
-                        </tr>
-                        <tr>
-                            <td>1,013</td>
-                            <td>torquent</td>
-                            <td>per</td>
-                            <td>conubia</td>
-                            <td>nostra</td>
-                        </tr>
-                        <tr>
-                            <td>1,014</td>
-                            <td>per</td>
-                            <td>inceptos</td>
-                            <td>himenaeos</td>
-                            <td>Curabitur</td>
-                        </tr>
-                        <tr>
-                            <td>1,015</td>
-                            <td>sodales</td>
-                            <td>ligula</td>
-                            <td>in</td>
-                            <td>libero</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        {% endblock %}
+        <h2 class="sub-header">客户展示</h2>
+        <h2 class="sub-header"><a href="{% url 'client:client_add' %}">客户添加</a></h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>编号</th>
+                    <th>名字</th>
+                    <th>等级</th>
+                    <th>类型</th>
+                    <th>性质</th>
+                    <th>行业</th>
+                    <th>所属</th>
+                    <th>地址</th>
+                    <th>简介</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for client in client_info %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ client.number }}</td>
+                        <td>{{ client.name }}</td>
+                        <td>{{ client.mark.mark }}</td>
+                        <td>{{ client.type.type }}</td>
+                        <td>{{ client.industry.industry }}</td>
+                        <td>{{ client.product_type.type }}</td>
+                        <td>{{ client.belong.belong }}</td>
+                        <td>{{ client.address }}</td>
+                        <td>{{ client.abbr }}</td>
+                        <td>{{ client.remark }}</td>
+                        <td><a href="{% url 'client:client_edit' client.id %}">编辑</a><a href="">删除</a></td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer">
+        <span class="fa-pull-left">第{{ current_page_num }}页/共{{ total_page_num }}页&emsp;&emsp;共
+                        {{ total_client }}条</span>
+        <nav class="fa-pull-right" aria-label="Page navigation">
+            <!-- 分页 -->
+            <ul class="pagination">
+
+                <!-- 上一页 -->
+                {% if client_info.has_previous %}
+                    <li><a class="page-link" href="?page={{ client_info.previous_page_number }}
+                                &{{ other_param }}">上一页</a>
+                    </li>
+                {% else %}
+                    {#                                <li class="disabled"><a href="javascript:void(0);">上一页</a></li>#}
+                    <li><a class="page-link" href="#">上一页</a></li>
+                {% endif %}
+
+                <!-- 左标记 -->
+                {% if left_has_more_page %}
+                    <li><a class="page-link" href="?page=1&{{ other_param }}">1</a></li>
+                    <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                {% endif %}
+
+
+                <!-- 左边的页码 -->
+                {% for left_page in left_page_range %}
+                    <li><a class="page-link" href="?page={{ left_page }}&{{ other_param }}"
+                    >{{ left_page }}</a></li>
+                {% endfor %}
+
+                <!-- 当前页面 -->
+                {% if current_page_num %}
+                    <li class="page-item active"><a class="page-link"
+                                                    href="?page={{ current_page_num }}&{{ other_param }}">{{ current_page_num }}</a>
+                    </li>
+                {% endif %}
+
+
+                <!-- 右边的页面 -->
+                {% for right_page in right_page_range %}
+                    <li><a class="page-link" href="?page={{ right_page }}&{{ other_param }}"
+                    >{{ right_page }}</a></li>
+                {% endfor %}
+
+                <!-- 右标记 -->
+                {% if right_has_more_page %}
+                    <li><a class="page-link" href="javascript:void(0);">...</a></li>
+                    <li><a class="page-link" href="?page={{ total_page_num }}&{{ other_param }}"
+                    >{{ total_page_num }}</a></li>
+                {% endif %}
+
+                <!-- 下一页 -->
+                {% if client_info.has_next %}
+                    <li><a class="page-link" href="?page={{ client_info.next_page_number }}
+                                &{{ other_param }}">下一页</a></li>
+                {% else %}
+                    {#                                <li class="disabled"><a href="javascript:void(0);">下一页</a></li>#}
+                    <li><a class="page-link" href="#">下一页</a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    </div>
+    </div>
+
+
+{% endblock %}
 {% block script %}
-    <script src="{% static 'js/admin/salt/salt_daily_delete.js' %}"></script>
+    <script src="{% static 'js/admin/client/client_delete.js' %}"></script>
 {% endblock %}

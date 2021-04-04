@@ -5,11 +5,11 @@
 @File    : forms.py
 """
 
-from django.forms import forms
+from django import forms
 from client import models as client_models
 
 
-class ClientForm(forms.Form):
+class ClientForm(forms.ModelForm):
     """客户form校验"""
 
     number = forms.CharField(

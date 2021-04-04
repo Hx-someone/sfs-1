@@ -23,7 +23,7 @@
     <link href="{% static "css/dashboard.css" %}" rel="stylesheet">
     <link href="{% static 'css/admin/base.css' %}" rel="stylesheet">
     <link href="{% static 'css/utils/sweetalert.css' %}" rel="stylesheet">
-<link href="{% static 'css/utils/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/utils/bootstrap-datepicker.min.css' %}" rel="stylesheet">
     <!-- css block-->
     {% block css %}
     {% endblock %}
@@ -70,24 +70,18 @@
                 <ul class="nav nav-sidebar" id="nav">
                     <li class="active"><a href="#">主页 <span class="sr-only">(当前)</span></a></li>
                     <li>
-                        <a href="#">客户详情 <i class="right fas fa-angle-left"> </i></a>
+                        <a href="#">客户 <i class="right fas fa-angle-left"> </i></a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{% url 'client:client' %}" class="nav-link">
                                     <i class="iconfont icon-tubiaozhizuomoban"></i>
                                     <p>客户详情</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{% url 'product:product' %}" class="nav-link">
                                     <i class="iconfont icon-tubiaozhizuomoban"></i>
-                                    <p>材质合金</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-{#                                    <i class="iconfont icon-tubiaozhizuomoban"></i>#}
-                                    <p>产品问题</p>
+                                    <p>客户产品</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -96,14 +90,7 @@
                                     <p>客户投诉</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="iconfont icon-tubiaozhizuomoban"></i>
-                                    <p>异常难点</p>
-                                </a>
-                            </li>
                         </ul>
-
                     </li>
                     <li><a href="#">工艺统计</a>
                         <ul class="nav nav-treeview">
@@ -222,12 +209,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="#">合金统计</a>
+                    <li><a href="#">合金</a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{% url 'alloy:alloy' %}" class="nav-link">
                                     <i class="iconfont icon-tubiaozhizuomoban"></i>
-                                    <p>客户详情</p>
+                                    <p>合金详情</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -358,24 +345,6 @@
                             <h4>Label</h4>
                             <span class="text-muted">名称1</span>
                         </div>
-                        <div class="col-xs-6 col-sm-3 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                 width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">名称2</span>
-                        </div>
-                        <div class="col-xs-6 col-sm-3 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                 width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">名称3</span>
-                        </div>
-                        <div class="col-xs-6 col-sm-3 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                 width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">名称4</span>
-                        </div>
                     </div>
                 {% endblock %}
 
@@ -398,111 +367,6 @@
                             <td>ipsum</td>
                             <td>dolor</td>
                             <td>sit</td>
-                        </tr>
-                        <tr>
-                            <td>1,002</td>
-                            <td>amet</td>
-                            <td>consectetur</td>
-                            <td>adipiscing</td>
-                            <td>elit</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>Integer</td>
-                            <td>nec</td>
-                            <td>odio</td>
-                            <td>Praesent</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>libero</td>
-                            <td>Sed</td>
-                            <td>cursus</td>
-                            <td>ante</td>
-                        </tr>
-                        <tr>
-                            <td>1,004</td>
-                            <td>dapibus</td>
-                            <td>diam</td>
-                            <td>Sed</td>
-                            <td>nisi</td>
-                        </tr>
-                        <tr>
-                            <td>1,005</td>
-                            <td>Nulla</td>
-                            <td>quis</td>
-                            <td>sem</td>
-                            <td>at</td>
-                        </tr>
-                        <tr>
-                            <td>1,006</td>
-                            <td>nibh</td>
-                            <td>elementum</td>
-                            <td>imperdiet</td>
-                            <td>Duis</td>
-                        </tr>
-                        <tr>
-                            <td>1,007</td>
-                            <td>sagittis</td>
-                            <td>ipsum</td>
-                            <td>Praesent</td>
-                            <td>mauris</td>
-                        </tr>
-                        <tr>
-                            <td>1,008</td>
-                            <td>Fusce</td>
-                            <td>nec</td>
-                            <td>tellus</td>
-                            <td>sed</td>
-                        </tr>
-                        <tr>
-                            <td>1,009</td>
-                            <td>augue</td>
-                            <td>semper</td>
-                            <td>porta</td>
-                            <td>Mauris</td>
-                        </tr>
-                        <tr>
-                            <td>1,010</td>
-                            <td>massa</td>
-                            <td>Vestibulum</td>
-                            <td>lacinia</td>
-                            <td>arcu</td>
-                        </tr>
-                        <tr>
-                            <td>1,011</td>
-                            <td>eget</td>
-                            <td>nulla</td>
-                            <td>Class</td>
-                            <td>aptent</td>
-                        </tr>
-                        <tr>
-                            <td>1,012</td>
-                            <td>taciti</td>
-                            <td>sociosqu</td>
-                            <td>ad</td>
-                            <td>litora</td>
-                        </tr>
-                        <tr>
-                            <td>1,013</td>
-                            <td>torquent</td>
-                            <td>per</td>
-                            <td>conubia</td>
-                            <td>nostra</td>
-                        </tr>
-                        <tr>
-                            <td>1,014</td>
-                            <td>per</td>
-                            <td>inceptos</td>
-                            <td>himenaeos</td>
-                            <td>Curabitur</td>
-                        </tr>
-                        <tr>
-                            <td>1,015</td>
-                            <td>sodales</td>
-                            <td>ligula</td>
-                            <td>in</td>
-                            <td>libero</td>
                         </tr>
                         </tbody>
                     </table>

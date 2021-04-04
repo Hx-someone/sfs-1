@@ -1,10 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'admin/base.html' %}
+{% load staticfiles %}
+{% block title %}
+    {% if client_query %}
+        客户更新
+        {% else %}
+        客户添加
+    {% endif %}
 
-</body>
-</html>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">{% block content_title %}
+            {% if client_query %}
+                客户更新
+            {% else %}
+                客户添加
+            {% endif %}
+        {% endblock %}</h1>
+        <div style="margin-bottom: 10px; " class="input-group input-group-lg ">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="name">客户名称:</label>
+            {% if client_query %}
+                <input style="width:300px" type="text" name="name" id="name" class="form-control"
+                       placeholder="请输入客户名称" value={{ client_query.name }}>
+            {% else %}
+                <input style="width:300px" type="text" name="name" id="name" class="form-control"
+                       placeholder="请输入客户名称">
+            {% endif %}
+        </div>
+        <div style="margin-bottom: 10px;width:300px" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="number">客户编号:</label>
+            {% if client_query %}
+                <input style="width:300px" type="text" name="number" id="number" class="form-control"
+                       placeholder="请输入客户编号" value={{ client_query.number }}>
+            {% else %}
+                <input style="width:300px" type="text" name="number" id="number" class="form-control"
+                       placeholder="请输入客户编号">
+            {% endif %}
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="belong" >所属销售:</label>
+        <select style="width:300px" class="form-control" name="belong" id="belong">
+                <option value="0" title="请选择所属销售">请选择所属销售</option>
+                    {% for belong_query in client_belong_query_set %}
+                        {% if client_query and client_query.belong.belong == belong_query.belong %}
+                            <option value={{ belong_query.id }} title="{{ client_query.belong.belong }}" selected>
+                                {{ client_query.belong.belong }}</option>
+                        {% else %}
+                            <option value="{{ belong_query.id }}" title="{{ belong_query.belong }}">{{ belong_query.belong }}</option>
+                        {% endif %}
+                    {% endfor %}
+            </select>
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px"
+                   id="sizing-addon1" for="industry">客户性质:</label>
+            <select style="width:300px" class="form-control" name="industry" id="industry">
+                <option value="0" title="请选择客户性质">请选择客户性质</option>
+                    {% for industry_query in client_industry_query_set %}
+                        {% if client_query and client_query.industry.industry == industry_query.industry %}
+                            <option value={{ industry_query.id }} title="{{ client_query.industry.industry }}" selected>
+                                {{ client_query.industry.industry }}</option>
+                        {% else %}
+                            <option value="{{ industry_query.id }}" title="{{ belong_query.industry }}">{{ belong_query.industry }}</option>
+                        {% endif %}
+                    {% endfor %}
+            </select>
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="mark">客户等级:</label>
+            <select style="width:300px" class="form-control" name="mark" id="mark">
+                <option value="0" title="请选择客户等级">请选择客户等级</option>
+                    {% for mark_query in client_mark_query_set %}
+                        {% if client_query and client_query.mark.mark == mark_query.mark %}
+                            <option value={{ mark_query.id }} title="{{ client_query.mark.mark }}" selected>
+                                {{ client_query.mark.mark }}</option>
+                        {% else %}
+                            <option value="{{ mark_query.id }}" title="{{ mark_query.mark }}">{{ mark_query.mark }}</option>
+                        {% endif %}
+                    {% endfor %}
+            </select>
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px"
+                   id="sizing-addon1" for="product_type">产品类型:</label>
+            <select style="width:300px" class="form-control" name="product_type" id="product_type">
+                <option value="0" title="请选择产品类型">请选择产品类型</option>
+                    {% for product_type_query in client_product_type_query_set %}
+                        {% if client_query and client_query.product_type.type == product_type_query.type %}
+                            <option value={{ product_type_query.id }} title="{{ client_query.product_type.type }}" selected>
+                                {{ client_query.product_type.type }}</option>
+                        {% else %}
+                            <option value="{{ product_type_query.id }}" title="{{ product_type_query.type }}">{{ product_type_query.type }}</option>
+                        {% endif %}
+                    {% endfor %}
+            </select>
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" for="type" id="sizing-addon1">客户类型:</label>
+           <select style="width:300px" class="form-control" name="type" id="type">
+                <option value="0" title="请选择客户类型">请选择客户类型</option>
+                    {% for type_query in client_type_query_set %}
+                        {% if client_query and client_query.type.type == type_query.type %}
+                            <option value={{ type_query.id }} title="{{ client_query.type.type }}" selected>
+                                {{ client_query.type.type }}</option>
+                        {% else %}
+                            <option value="{{ type_query.id }}" title="{{ type_query.type }}">{{ type_query.type }}</option>
+                        {% endif %}
+                    {% endfor %}
+            </select>
+        </div>
+        <div style="margin-bottom:10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="abbr">客户简介:</label>
+            {% if client_query %}
+                <input style="width:300px" type="text" id="abbr" name="abbr" class="form-control"
+                       placeholder="请输入客户简介" value={{ client_query.abbr }}  aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:300px" type="text" id="abbr" name="abbr" class="form-control"
+                       placeholder="请输入客户简介" aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom:10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="address">客户地址:</label>
+         {% if client_query %}
+                <input style="width:300px" type="text" id="address" name="address" class="form-control"
+                       placeholder="请输入客户地址" value={{ client_query.address }}  aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:300px" type="text" id="address" name="address" class="form-control"
+                       placeholder="请输入客户地址" aria-describedby="basic-addon2">
+            {% endif %}
+
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">备&emsp;&emsp;注:</label>
+
+            {% if client_query %}
+                <input style="width:300px" style="width:300px" type="text" id="remark" name="remark"
+                       class="form-control"
+                       placeholder="请输入备注"
+                       value={{ client_query.remark }}>
+            {% else %}
+                <input style="width:300px" type="text" id="remark" name="remark" class="form-control"
+                       placeholder="请输入备注">
+            {% endif %}
+
+        </div>
+        <div class="box-footer">
+            {% if client_query %}
+                <a href="javascript:void (0);" class="btn btn-danger pull-left" id="btn-client-edit"
+                   data-client-id="{{ client_query.id }}">更新客户数据 </a>
+            {% else %}
+                <a href="javascript:void (0);" class="btn btn-primary pull-left "
+                   id="btn-client-edit" >添加客户数据 </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/admin/client/client_edit.js' %}"></script>
+{% endblock %}

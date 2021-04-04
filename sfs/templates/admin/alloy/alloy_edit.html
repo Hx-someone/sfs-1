@@ -1,10 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'admin/base.html' %}
+{% load staticfiles %}
+{% block title %}
+    {% if alloy %}
+        合金更新
+    {% else %}
+        合金添加
+    {% endif %}
 
-</body>
-</html>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">{% block content_title %}
+            {% if alloy %}
+                合金更新
+            {% else %}
+                合金添加
+            {% endif %}
+        {% endblock %}</h1>
+        <div style="margin-bottom: 10px; " class="input-group input-group-lg ">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="name">合金名称:</label>
+            {% if alloy %}
+                <input style="width:300px" type="text" name="name" id="name" class="form-control"
+                       placeholder="请输入合金名称" value={{ alloy.name }}>
+            {% else %}
+                <input style="width:300px" type="text" name="name" id="name" class="form-control"
+                       placeholder="请输入合金名称">
+            {% endif %}
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="type">合金类型:</label>
+            <select style="width:300px" class="form-control" name="type" id="type">
+                <option value="0" title="请选择合金类型">请选择合金类型</option>
+                {% for alloy_type in alloy_type_set %}
+                    {% if alloy and alloy.type.type == alloy_type.type %}
+                        <option value={{ alloy_type.id }} title="{{ alloy.type.type }}" selected>
+                            {{ alloy.type.type }}</option>
+                    {% else %}
+                        <option value="{{ alloy_type.id }}"
+                                title="{{ alloy_type.type }}">{{ alloy_type.type }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+        </div>
+        <div style="margin-bottom:10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1" for="tackle">合金攻关:</label>
+            {% if alloy %}
+                <input style="width:300px" type="text" id="tackle" name="tackle" class="form-control"
+                       placeholder="请输入合金攻关" value={{ alloy.tackle }}  aria-describedby="basic-addon2">
+            {% else %}
+                <input style="width:300px" type="text" id="tackle" name="tackle" class="form-control"
+                       placeholder="请输入合金攻关" aria-describedby="basic-addon2">
+            {% endif %}
+
+        </div>
+        <div style="margin-bottom: 10px;" class="input-group input-group-lg">
+            <label class="input-group-addon" style="width: 100px" id="sizing-addon1">备&emsp;&emsp;注:</label>
+
+            {% if alloy %}
+                <input style="width:300px" style="width:300px" type="text" id="remark" name="remark"
+                       class="form-control"
+                       placeholder="请输入备注"
+                       value={{ alloy.remark }}>
+            {% else %}
+                <input style="width:300px" type="text" id="remark" name="remark" class="form-control"
+                       placeholder="请输入备注">
+            {% endif %}
+
+        </div>
+        <div class="box-footer">
+            {% if alloy %}
+                <a href="javascript:void (0);" class="btn btn-danger pull-left" id="btn-alloy-edit"
+                   data-alloy-id="{{ alloy.id }}">更新合金数据 </a>
+            {% else %}
+                <a href="javascript:void (0);" class="btn btn-primary pull-left "
+                   id="btn-alloy-edit">添加合金数据 </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/admin/alloy/alloy_edit.js' %}"></script>
+{% endblock %}

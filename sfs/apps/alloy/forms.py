@@ -8,7 +8,7 @@
 from django import forms
 from alloy.models import AlloyType
 
-class AlloyForm(forms.Form):
+class AlloyForm(forms.ModelForm):
     """合金表单校验"""
     name = forms.CharField(label="合金牌号",error_messages={
         "max_length":"合金牌号长度不能超过16位",
@@ -23,7 +23,7 @@ class AlloyForm(forms.Form):
     tackle = forms.CharField(label="攻关",error_messages={
         "max_length":"攻关长度不能超过256位"
     })
-class AlloyTypeForm(forms.Form):
+class AlloyTypeForm(forms.ModelForm):
     """合金类型表单校验"""
     name = forms.CharField(label="合金类型", error_messages={
         "max_length": "合金类型长度不能超过256位"

@@ -6,8 +6,6 @@ from utils._base_model.base_model import  BaseModel
 
 class Craft(BaseModel):
     """工艺"""
-    # client = models.ForeignKey("Client",on_delete=models.CASCADE,verbose_name="客户")
-    # alloy = models.ForeignKey("Alloy",on_delete=models.SET_NULL,null=True,blank=True,verbose_name="合金")
     number = models.CharField(max_length=16,verbose_name="工艺编号")
     ultrasound = models.CharField(max_length=64,verbose_name="超声清洗")
     preheat = models.CharField(max_length=64,verbose_name="预热")
@@ -18,6 +16,8 @@ class Craft(BaseModel):
     hot_rinse = models.CharField(max_length=32, verbose_name="热水清洗")
     emulsify = models.CharField(max_length=64, verbose_name="乳化")
     close = models.CharField(max_length=32, verbose_name="封闭")
+    client = models.ForeignKey("Client",on_delete=models.CASCADE,verbose_name="客户")
+    alloy = models.ForeignKey("Alloy",on_delete=models.SET_NULL,null=True,blank=True,verbose_name="合金")
     special = models.ForeignKey("CraftSpecial", on_delete=models.SET_NULL, null=True, blank=True, verbose_name="特殊工艺")
 
     class Meta:

@@ -4,7 +4,7 @@
 # from alloy.models import  Alloy
 # from craft.models import Craft
 #
-# # class Product(BaseModel):
+# class Product(BaseModel):
 #     """产品"""
 #     name = models.CharField(max_length=128, verbose_name="产品名字")
 #     require = models.TextField(verbose_name="要求")
@@ -14,6 +14,7 @@
 #
 #
 #     class Meta:
+#         ordering = ["-id"]
 #         db_table = "tb_product"
 #         verbose_name="产品"
 #         verbose_name_plural=verbose_name

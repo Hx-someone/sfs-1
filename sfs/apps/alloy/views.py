@@ -19,8 +19,8 @@ class AlloyShow(View):
 
     def get(self, request):
         """合金展示"""
-        alloy_query_set = alloy_model.Alloy.objects.defer("version", "create_time", "update_time").filter(
-            is_delete=False)
+        alloy_query_set = alloy_model.Alloy.objects.defer("version", "create_time", "update_time").order_by(
+            "id").filter(is_delete=False)
         total_alloy = len(alloy_query_set)
         try:
             page_num = int(request.GET.get("page", 1))
