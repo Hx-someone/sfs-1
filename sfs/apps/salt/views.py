@@ -188,7 +188,7 @@ class SaltNAShow(View):
 
     def get(self, request):
         """展示基盐种类"""
-        salt_na = _models.SaltNA.objects.defer("version", "create_time", "update_time", "is_delete").filter(
+        salt_na = _models.SaltNA.objects.defer("version", "create_time", "update_time").filter(
             is_delete=False)
         total_data_num = len(salt_na)
 

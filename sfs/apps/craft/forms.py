@@ -4,3 +4,11 @@
 @Author  : HGhost
 @File    : forms.py
 """
+
+from django import forms
+
+class CraftForm(forms.ModelForm):
+    pass
+
+class CraftSpecialForm(forms.ModelForm):
+    pass

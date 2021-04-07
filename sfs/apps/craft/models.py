@@ -29,6 +29,7 @@ class Craft(BaseModel):
 
 class CraftSpecial(BaseModel):
     """特殊工艺"""
+    name = models.CharField(max_length=128,verbose_name="工艺名称")
     shot = models.CharField(max_length=32,verbose_name="抛光")
     second_preheat = models.CharField(max_length=64,verbose_name="二次预热")
     second_oxidation = models.CharField(max_length=32,verbose_name="二次氧化")

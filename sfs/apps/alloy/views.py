@@ -234,7 +234,7 @@ class AlloyTypeEdit(View):
             if not alloy_type_json_data:
                 logger.info("合金添加前端传来的数据为空")
                 return to_json_data(errno=Code.PARAMERR, errmsg="合金添加前端传来的数据为空")
-                alloy_type_dict_data = json.load(alloy_type_json_data.decode("utf-8"))
+            alloy_type_dict_data = json.load(alloy_type_json_data.decode("utf-8"))
             if alloy_type_dict_data.get("type") in [i.type for i in alloy_type_query]:
                 return to_json_data(errno=Code.PARAMERR, errmsg="{}合金类型已存在".format(alloy_type_dict_data.get("type")))
         except Exception as e:
@@ -245,7 +245,7 @@ class AlloyTypeEdit(View):
         if alloy_type_form.is_valid():
             for k, v in alloy_type_form.cleaned_data.items():
                 setattr(alloy_type_query, k, v)
-            alloy_query.save()
+            alloy_type_query.save()
             return to_json_data(errmsg="<{}>合金修改成功".format(alloy_type_query.type))
         else:
             err_str = err_msg_list(alloy_type_form)
