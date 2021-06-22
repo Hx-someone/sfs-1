@@ -1,27 +1,58 @@
-{% extends 'user/user_base.html'  %}
+{% extends "base/base.html" %}
 {% load staticfiles %}
-
-
 {% block title %}
-    登录页面
+    登录
 {% endblock %}
 
-{% block form %}
-     <form class="form-signin">
-        <h2 class="form-signin-heading">请登录</h2>
-        <label for="inputUserName" class="sr-only">用户名</label>
-        <input type="text" id="inputUserName" class="form-control" placeholder="请输入用户名" required autofocus>
-        <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" value="remember-me"> 记住密码
-            </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/authPro/auth.css' %}">
+{% endblock %}
+
+{% block main %}
+<!-- container start -->
+<main id="container">
+
+  <div class="login-contain">
+    <div class="top-contain">
+      <h4 class="please-login">请登录</h4>
+      <a href="{% url 'users:register' %}" class="register">立即注册 &gt;</a>
+    </div>
+    <form action="" method="post" class="form-contain">
+        {% csrf_token %}
+      <div class="form-item">
+        <input type="tel" placeholder="请输入用户名或者手机号" name="login_name" class="form-control" autocomplete="off">
+      </div>
+      <div class="form-item">
+        <input type="password" placeholder="请输入密码" name="password" class="form-control">
+      </div>
+        <div class="form-item">
+                    <input type="text" placeholder="请输入图形验证码" id="input_captcha" name="captcha_graph" class="form-captcha">
+                    <a href="#" class="captcha-graph-img">
+                        <img src="" alt="验证码" title="点击刷新">
+                    </a>
+                </div>
+      <div class="form-item clearfix">
+        <label>
+          <input type="checkbox" name="remember">
+          <span>记住我</span>
+        </label>
+        <a href="{% url 'users:resetPwd' %}" class="forget-password">忘记密码?</a>
+      </div>
+      <div class="form-login">
+          <input type="submit" value="登录" class="login-btn">
+      </div>
     </form>
+  </div>
+</main>
+<!-- container end -->
 {% endblock %}
 
-{% block js %}
-    <script src="{% static 'js/user/login.js' %}" > </script>
+
+{% block script %}
+    <script src="{% static 'js/plugins/image_uuid.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/encrypt/crypto-js.js' %}"></script>
+    <script src="{% static 'js/encrypt/encrypt_func.js' %}"></script>
+    <script src="{% static 'js/encrypt/enlogin.js' %}"></script>
+
+
 {% endblock %}
